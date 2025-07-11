@@ -1,23 +1,12 @@
-# Use the official Node.js image as the base image
-FROM node:20.9.0
-
-# Set the working directory inside the container
+# Étape 1 : Base
+FROM node:18-alpine AS base
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the working directory
-COPY package.json package-lock.json ./
-
-# Install dependencies
+# Étape 2 : Dépendances
+COPY package*.json ./
 RUN npm install
 
-# Copy the rest of the application code to the working directory
+# Étape 3 : Développement
 COPY . .
-
-# Build the application
-RUN npm run build
-
-# Expose the port on which the app will run
 EXPOSE 3000
-
-# Start the application
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]
